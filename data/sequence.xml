@@ -1,0 +1,11 @@
+<odoo>
+  <data noupdate="1">
+    <record id="seq_optica_lente_orden" model="ir.sequence">
+     <field name="name">Orden de Lentes</field>
+     <field name="code">optica.lente.orden</field>
+     <field name="prefix">OL/%(y)s/</field>
+     <field name="padding">4</field>
+     <field name="company_id" eval="False"/>
+   </record>
+ </data>
+</odoo>

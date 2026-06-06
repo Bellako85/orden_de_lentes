@@ -1,0 +1,216 @@
+<odoo>
+  <!-- Form -->
+  <record id="view_optica_lente_orden_form" model="ir.ui.view">
+    <field name="name">optica.lente.orden.form</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="arch" type="xml">
+      <form string="Orden de Lentes" class="o_form_readonly">
+        <header>
+          <button name="action_print_ticket" type="object" string="Imprimir Ticket" class="oe_highlight"/>
+          <button name="action_cargar_graduacion" type="object" string="Cargar Graduación" class="btn-info" 
+                  invisible="state != 'en_espera' or not paciente_id"/>
+          <button name="action_en_proceso" type="object" string="Enviar a laboratorio" invisible="state != 'en_espera'" class="btn-primary"/>
+          <button name="action_por_entregar" type="object" string="Recibido de laboratorio" invisible="state != 'en_proceso'" class="btn-secondary"/>
+          <button name="action_entregado" type="object" string="Entregado" invisible="state != 'por_entregar'" class="oe_highlight"/>
+          <button name="action_retrabajo" type="object" string="Retrabajo" invisible="state not in ['por_entregar','entregado']"/>
+          <button name="action_cancelar" type="object" string="Cancelar" invisible="state not in ['en_espera','en_proceso','por_entregar']"/>
+          <field name="state" widget="statusbar" statusbar_visible="en_espera,en_proceso,por_entregar,entregado,retrabajo,cancelado"/>
+        </header>
+        <sheet>
+          <h1><field name="name"/></h1>
+          <group>
+            <group>
+              <field name="paciente_id"/>
+              <field name="sale_order_id"/>
+              <field name="lab_partner_id"/>
+              <field name="fecha_prometida" required="1"/>
+            </group>
+            <group>
+              <field name="frame_id"/>
+              <field name="lens_product_ids" widget="many2many_tags"/>
+              <field name="monto_total" readonly="1"/>
+              <field name="saldo_pendiente" readonly="1"/>
+            </group>
+          </group>
+
+ <notebook>
+  <page string="Graduación (snapshot)">
+    <group>
+      <field name="graduacion_id" string="Graduación de referencia" 
+             invisible="not paciente_id"/>
+    </group>
+
+    <!-- Rx en dos columnas -->
+    <group col="2">
+      <group string="Ojo Derecho">
+        <field name="od_esf"/>
+        <field name="od_cil"/>
+        <field name="od_eje"/>
+      </group>
+
+      <group string="Ojo Izquierdo">
+        <field name="oi_esf"/>
+        <field name="oi_cil"/>
+        <field name="oi_eje"/>
+      </group>
+    </group>
+
+    <!-- Datos adicionales en 2 columnas -->
+    <group string="Datos adicionales" col="2">
+      <field name="add"/>
+      <field name="dip"/>
+      <field name="dnp_od"/>
+      <field name="dnp_oi"/>
+    </group>
+
+    <!-- Otros -->
+    <group>
+      <field name="alt_co" colspan="2"/>
+      <field name="observaciones" colspan="2"/>
+    </group>
+  </page>
+
+  <page string="Fechas">
+    <group>
+      <field name="fecha_prometida"/>
+      <field name="fecha_entrega_real" readonly="1"/>
+    </group>
+  </page>
+</notebook>
+</sheet>
+</form>
+</field>
+</record>
+
+  <!-- Tree -->
+  <record id="view_optica_lente_orden_tree" model="ir.ui.view">
+    <field name="name">optica.lente.orden.tree</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="paciente_id"/>
+        <field name="sale_order_id"/>
+        <field name="lab_partner_id"/>
+        <field name="fecha_prometida"/>
+        <field name="state"/>
+        <field name="saldo_pendiente"/>
+      </tree>
+    </field>
+  </record>
+
+<!-- Kanban FLOW VIOLENTO -->
+<record id="view_lente_orden_kanban_neumorphism" model="ir.ui.view">
+    <field name="name">optica.lente.orden.kanban.neumorphism</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="arch" type="xml">
+        <kanban string="Órdenes de Lentes">
+            <field name="name"/>
+            <field name="paciente_id"/>
+            <field name="lab_partner_id"/>
+            <field name="lens_product_ids"/>
+            <field name="saldo_pendiente"/>
+            <field name="fecha_prometida"/>
+            <field name="state"/>
+            
+            <templates>
+                <t t-name="kanban-box">
+                    <!-- TARJETA NEUMORPHISM CYBER -->
+                    <div class="oe_kanban_global_click kanban-neumorphism" t-att-data-state="record.state.raw_value">
+                        
+                        <!-- HEADER: Estado con neumorphism -->
+                        <div class="kanban-header-neuro" t-att-class="'state-' + record.state.raw_value">
+                            <div class="neuro-badge">
+                                <span class="state-text" t-esc="record.state.value"/>
+                            </div>
+                            <div class="neuro-number">
+                                <strong t-esc="record.name.value"/>
+                            </div>
+                        </div>
+                        
+                        <!-- CUERPO: Info con efecto hundido -->
+                        <div class="kanban-body-neuro">
+                            <!-- Paciente -->
+                            <div class="neuro-line paciente-line">
+                                <div class="neuro-icon">👤</div>
+                                <div class="neuro-text" t-esc="record.paciente_id.value or 'Sin paciente'"/>
+                            </div>
+                            
+                            <!-- Laboratorio -->
+                            <div class="neuro-line lab-line">
+                                <div class="neuro-icon">🏭</div>
+                                <div class="neuro-text" t-esc="record.lab_partner_id.value or 'Sin lab'"/>
+                            </div>
+                            
+                            <!-- Lentes/Tratamientos -->
+                            <div class="neuro-line lentes-line">
+                                <div class="neuro-icon">👓</div>
+                                <div class="neuro-text" t-esc="record.lens_product_ids.value or 'Sin lentes'"/>
+                            </div>
+                        </div>
+                        
+                        <!-- FOOTER: Saldo + Fecha con relief -->
+                        <div class="kanban-footer-neuro">
+                            <div class="neuro-data">
+                                <div class="neuro-saldo" t-att-class="record.saldo_pendiente.raw_value > 0 ? 'pendiente' : 'pagado'">
+                                    <div class="neuro-coin">💰</div>
+                                    <span t-esc="record.saldo_pendiente.value or '0.00'"/>
+                                </div>
+                                <div class="neuro-fecha">
+                                    <div class="neuro-calendar">📅</div>
+                                    <span t-esc="record.fecha_prometida.value or 'Sin fecha'"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+
+  <!-- Calendar (por fecha prometida) -->
+  <record id="view_optica_lente_orden_calendar" model="ir.ui.view">
+    <field name="name">optica.lente.orden.calendar</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="arch" type="xml">
+      <calendar string="Entregas" date_start="fecha_prometida" color="state">
+        <field name="name"/>
+        <field name="paciente_id"/>
+      </calendar>
+    </field>
+  </record>
+
+  <!-- Search -->
+  <record id="view_optica_lente_orden_search" model="ir.ui.view">
+    <field name="name">optica.lente.orden.search</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="paciente_id"/>
+        <field name="lab_partner_id"/>
+        <filter string="Atrasados" name="late" domain="[('state','!=','entregado'), ('fecha_prometida','&lt;', context_today())]"/>
+        <filter string="Por entregar" name="por_entregar" domain="[('state','=','por_entregar')]"/>
+        <group expand="0" string="Estado">
+          <filter string="En espera" name="f_wait" domain="[('state','=','en_espera')]"/>
+          <filter string="En proceso" name="f_proc" domain="[('state','=','en_proceso')]"/>
+          <filter string="Entregado" name="f_done" domain="[('state','=','entregado')]"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <!-- Acción y menús -->
+  <record id="action_optica_lente_orden" model="ir.actions.act_window">
+    <field name="name">Órdenes de Lentes</field>
+    <field name="res_model">optica.lente.orden</field>
+    <field name="view_mode">kanban,tree,form,calendar</field>
+    <field name="context">{"search_default_late": 1}</field>
+  </record>
+
+  <!-- OJO: si ya tienes un menú raíz "Óptica", cambia el parent por el de tu módulo previo -->
+  <menuitem id="menu_optica_root" name="Óptica" sequence="10"/>
+  <menuitem id="menu_optica_lentes" name="Órdenes de Lentes" parent="menu_optica_root" action="action_optica_lente_orden"/>
+</odoo>

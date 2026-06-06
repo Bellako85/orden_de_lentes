@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_optica_lente_orden_user,access.optica.lente.orden.user,model_optica_lente_orden,base.group_user,1,1,1,0
+access_optica_lente_orden_manager,access.optica.lente.orden.manager,model_optica_lente_orden,base.group_system,1,1,1,1

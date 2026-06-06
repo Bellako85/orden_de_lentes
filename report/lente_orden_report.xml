@@ -1,0 +1,10 @@
+<odoo>
+<record id="action_report_lente_orden" model="ir.actions.report">
+    <field name="name">Ticket de Laboratorio</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">Orden_de_lentes.report_lente_orden</field>
+    <field name="report_file">Orden_de_lentes.report_lente_orden</field>
+    <field name="print_report_name">'Ticket_' + object.name</field>
+</record>
+</odoo>

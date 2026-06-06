@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_lente_orden">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="web.external_layout">
+          <div class="page">
+            
+            <!-- Estilos CSS personalizados -->
+            <style>
+              .ticket-header {
+                border-bottom: 3px solid #2c3e50;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+              }
+              .ticket-title {
+                color: #2c3e50;
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 5px;
+              }
+              .ticket-subtitle {
+                color: #7f8c8d;
+                font-size: 14px;
+              }
+              .info-section {
+                background-color: #f8f9fa;
+                border-left: 4px solid #3498db;
+                padding: 15px;
+                margin-bottom: 20px;
+                border-radius: 0 5px 5px 0;
+              }
+              .section-title {
+                color: #2c3e50;
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                padding-bottom: 5px;
+                border-bottom: 2px solid #ecf0f1;
+              }
+              .table-custom {
+                border: 1px solid #dee2e6;
+                font-size: 14px;
+                border-radius: 5px;
+                overflow: hidden;
+              }
+              .table-custom thead {
+                background-color: #2980b9; /* AZUL BRILLANTE */
+                color: white;
+              }
+              .table-custom th {
+                border: none;
+                padding: 12px 10px;
+                text-align: center;
+                font-weight: bold;
+                font-size: 15px;
+                letter-spacing: 0.5px;
+              }
+              .table-custom td {
+                padding: 10px;
+                text-align: center;
+                vertical-align: middle;
+                border: 1px solid #dee2e6;
+              }
+              .highlight-row {
+                background-color: #f8f9fa;
+                font-weight: bold;
+              }
+              .data-label {
+                font-weight: bold;
+                color: #2c3e50;
+                min-width: 120px;
+                display: inline-block;
+              }
+              .observaciones-box {
+                background-color: #fff3cd;
+                border: 1px solid #ffeaa7;
+                border-radius: 5px;
+                padding: 15px;
+                margin-top: 20px;
+              }
+              .status-icon {
+                margin-right: 5px;
+              }
+            </style>
+
+            <div class="row">
+              <div class="col-12">
+                <!-- Encabezado mejorado -->
+                <div class="ticket-header">
+                  <div class="ticket-title">Ticket de Laboratorio — <span t-esc="doc.name"/></div>
+                  <div class="ticket-subtitle">Óptica Zamora - Sistema de Órdenes de Lentes</div>
+                </div>
+                
+                <!-- Información básica con estilos -->
+                <div class="info-section">
+                  <div class="row">
+                    <div class="col-6">
+                      <p><span class="data-label">Paciente:</span> <span t-esc="doc.paciente_id.name"/></p>
+                      <p><span class="data-label">Armazón:</span> <span t-esc="doc.frame_id.name or 'Sin especificar'"/></p>
+                      <p><span class="data-label">Laboratorio:</span> <span t-esc="doc.lab_partner_id.name or 'Por asignar'"/></p>
+                    </div>
+                    <div class="col-6">
+                      <p><span class="data-label">Fecha Prometida:</span> <span t-esc="doc.fecha_prometida or 'Sin fecha'"/></p>
+                      <p><span class="data-label">Estado:</span> 
+                        <span t-if="doc.state == 'en_espera'" style="color: #f39c12;"><span class="status-icon">⏳</span> En espera</span>
+                        <span t-elif="doc.state == 'en_proceso'" style="color: #3498db;"><span class="status-icon">⚙️</span> En proceso</span>
+                        <span t-elif="doc.state == 'por_entregar'" style="color: #e74c3c;"><span class="status-icon">📦</span> Por entregar</span>
+                        <span t-elif="doc.state == 'entregado'" style="color: #27ae60;"><span class="status-icon">✅</span> Entregado</span>
+                        <span t-elif="doc.state == 'retrabajo'" style="color: #d35400;"><span class="status-icon">🔄</span> Retrabajo</span>
+                        <span t-elif="doc.state == 'cancelado'" style="color: #95a5a6;"><span class="status-icon">❌</span> Cancelado</span>
+                        <span t-else=""><span t-esc="doc.state"/></span>
+                      </p>
+                      <p>
+                        <span class="data-label">Materiales/Tratamientos:</span>
+                        <t t-foreach="doc.lens_product_ids" t-as="product">
+                          <br/>• <span t-esc="product.name"/>
+                        </t>
+                        <t t-if="not doc.lens_product_ids">
+                          <span style="color: #7f8c8d;">No especificados</span>
+                        </t>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Graduación con estilos AZUL BRILLANTE -->
+                <h3 class="section-title">📊 Graduación Óptica</h3>
+                <table class="table table-sm table-bordered table-custom">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>ESF</th>
+                      <th>CIL</th>
+                      <th>EJE</th>
+                      <th>ADD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="highlight-row">
+                      <td><strong>OD</strong></td>
+                      <td><span t-esc="doc.od_esf or '-'"/></td>
+                      <td><span t-esc="doc.od_cil or '-'"/></td>
+                      <td><span t-esc="doc.od_eje or '-'"/></td>
+                      <td><span t-esc="doc.add or '-'"/></td>
+                    </tr>
+                    <tr class="highlight-row">
+                      <td><strong>OI</strong></td>
+                      <td><span t-esc="doc.oi_esf or '-'"/></td>
+                      <td><span t-esc="doc.oi_cil or '-'"/></td>
+                      <td><span t-esc="doc.oi_eje or '-'"/></td>
+                      <td><span t-esc="doc.add or '-'"/></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- Datos adicionales con estilos AZUL BRILLANTE -->
+                <div t-if="doc.dip or doc.dnp_od or doc.dnp_oi or doc.alt_co">
+                  <h3 class="section-title">📐 Datos Adicionales</h3>
+                  <table class="table table-sm table-bordered table-custom">
+                    <tbody>
+                      <tr t-if="doc.dip">
+                        <td width="30%"><strong>DIP</strong></td>
+                        <td><span t-esc="doc.dip"/> mm</td>
+                      </tr>
+                      <tr t-if="doc.dnp_od">
+                        <td><strong>DNP OD</strong></td>
+                        <td><span t-esc="doc.dnp_od"/> mm</td>
+                      </tr>
+                      <tr t-if="doc.dnp_oi">
+                        <td><strong>DNP OI</strong></td>
+                        <td><span t-esc="doc.dnp_oi"/> mm</td>
+                      </tr>
+                      <tr t-if="doc.alt_co">
+                        <td><strong>Alt. CO</strong></td>
+                        <td><span t-esc="doc.alt_co"/> mm</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Observaciones con estilo -->
+                <div class="observaciones-box" t-if="doc.observaciones">
+                  <p><strong>📝 Observaciones:</strong></p>
+                  <p t-esc="doc.observaciones"/>
+                </div>
+
+                <!-- Pie de página -->
+                <div style="margin-top: 30px; padding-top: 10px; border-top: 1px solid #ecf0f1; text-align: center; color: #7f8c8d; font-size: 12px;">
+                  <p>Ticket generado el <span t-esc="datetime.datetime.now().strftime('%d/%m/%Y %H:%M')"/> • Óptica Zamora</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>
