@@ -139,17 +139,17 @@
                   <tbody>
                     <tr class="highlight-row">
                       <td><strong>OD</strong></td>
-                      <td><span t-esc="doc.od_esf or '-'"/></td>
-                      <td><span t-esc="doc.od_cil or '-'"/></td>
-                      <td><span t-esc="doc.od_eje or '-'"/></td>
-                      <td><span t-esc="doc.add or '-'"/></td>
+                        <span t-esc="doc.format_optical_value(doc.od_esf)"/>
+                        <span t-esc="doc.format_optical_value(doc.od_cil)"/>
+                        <span t-esc="doc.format_axis_value(doc.od_eje)"/>
+                        <span t-esc="doc.format_optical_value(doc.add)"/>
                     </tr>
                     <tr class="highlight-row">
                       <td><strong>OI</strong></td>
-                      <td><span t-esc="doc.oi_esf or '-'"/></td>
-                      <td><span t-esc="doc.oi_cil or '-'"/></td>
-                      <td><span t-esc="doc.oi_eje or '-'"/></td>
-                      <td><span t-esc="doc.add or '-'"/></td>
+                        <span t-esc="doc.format_optical_value(doc.oi_esf)"/>
+                        <span t-esc="doc.format_optical_value(doc.oi_cil)"/>
+                        <span t-esc="doc.format_axis_value(doc.oi_eje)"/>
+                        <span t-esc="doc.format_optical_value(doc.add)"/>
                     </tr>
                   </tbody>
                 </table>
@@ -179,6 +179,14 @@
                   </table>
                 </div>
 
+                <group string="Medidas del armazón">
+                    <field name="diametro_horizontal"/>
+                    <field name="diametro_vertical"/>
+                    <field name="efectivo"/>
+                    <field name="puente"/>
+                    <field name="diametro_sugerido"/>
+                </group>
+                
                 <!-- Observaciones con estilo -->
                 <div class="observaciones-box" t-if="doc.observaciones">
                   <p><strong>📝 Observaciones:</strong></p>
