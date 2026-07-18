@@ -169,3 +169,28 @@ class OpticaLenteOrden(models.Model):
             return int(value or 0)
         except (TypeError, ValueError):
             return 0
+
+    def format_optical_value(self, value, decimals=2, show_positive=True):
+        """Formatea valores ópticos con signo positivo explícito."""
+        if value in (False, None, ""):
+            return "-"
+
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            return str(value)
+
+        if number > 0 and show_positive:
+            return f"+{number:.{decimals}f}"
+
+        return f"{number:.{decimals}f}"
+
+    def format_axis_value(self, value):
+        """Formatea eje sin signo y sin decimales."""
+        if value in (False, None, ""):
+            return "-"
+
+        try:
+            return str(int(float(value)))
+        except (TypeError, ValueError):
+            return str(value)
