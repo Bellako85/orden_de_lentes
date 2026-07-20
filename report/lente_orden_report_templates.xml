@@ -139,17 +139,17 @@
                   <tbody>
                     <tr class="highlight-row">
                       <td><strong>OD</strong></td>
-                        <span t-esc="doc.format_optical_value(doc.od_esf)"/>
-                        <span t-esc="doc.format_optical_value(doc.od_cil)"/>
-                        <span t-esc="doc.format_axis_value(doc.od_eje)"/>
-                        <span t-esc="doc.format_optical_value(doc.add)"/>
+                        <td><span t-esc="doc.format_optical_value(doc.od_esf)"/></td>
+                        <td><span t-esc="doc.format_optical_value(doc.od_cil)"/></td>
+                        <td><span t-esc="doc.format_axis_value(doc.od_eje)"/></td>
+                        <td><span t-esc="doc.format_optical_value(doc.add)"/></td>
                     </tr>
                     <tr class="highlight-row">
                       <td><strong>OI</strong></td>
-                        <span t-esc="doc.format_optical_value(doc.oi_esf)"/>
-                        <span t-esc="doc.format_optical_value(doc.oi_cil)"/>
-                        <span t-esc="doc.format_axis_value(doc.oi_eje)"/>
-                        <span t-esc="doc.format_optical_value(doc.add)"/>
+                        <td><span t-esc="doc.format_optical_value(doc.oi_esf)"/></td>
+                        <td><span t-esc="doc.format_optical_value(doc.oi_cil)"/></td>
+                        <td><span t-esc="doc.format_axis_value(doc.oi_eje)"/></td>
+                        <td><span t-esc="doc.format_optical_value(doc.add)"/></td>
                     </tr>
                   </tbody>
                 </table>
@@ -180,7 +180,7 @@
                 </div>
 
                 <h3>Medidas del armazón</h3>
-                  <table class="table table-sm table-bordered">
+                  <table class="table table-sm table-bordered table-custom">
                     <thead>
                       <tr>
                         <th>Diam. hori.</th>
