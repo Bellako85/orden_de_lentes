@@ -63,6 +63,14 @@
       <field name="dnp_oi"/>
     </group>
 
+    <!-- Medidas del armazon -->
+    <group string="Medidas del armazón">
+      <field name="diametro_horizontal"/>
+      <field name="diametro_vertical"/>
+      <field name="efectivo"/>
+      <field name="puente"/>
+      <field name="diametro_sugerido"/>
+    </group>
     <!-- Otros -->
     <group>
       <field name="alt_co" colspan="2"/>
