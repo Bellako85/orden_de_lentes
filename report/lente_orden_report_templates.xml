@@ -179,13 +179,27 @@
                   </table>
                 </div>
 
-                <group string="Medidas del armazón">
-                    <field name="diametro_horizontal"/>
-                    <field name="diametro_vertical"/>
-                    <field name="efectivo"/>
-                    <field name="puente"/>
-                    <field name="diametro_sugerido"/>
-                </group>
+                <h3>Medidas del armazón</h3>
+                  <table class="table table-sm table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Diam. hori.</th>
+                        <th>Diam. vert.</th>
+                        <th>Efectivo</th>
+                        <th>Puente</th>
+                        <th>Diam. sugerido</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span t-esc="'%.2f mm' % doc.diametro_horizontal if doc.diametro_horizontal else '-'"/></td>
+                        <td><span t-esc="'%.2f mm' % doc.diametro_vertical if doc.diametro_vertical else '-'"/></td>
+                        <td><span t-esc="'%.2f mm' % doc.efectivo if doc.efectivo else '-'"/></td>
+                        <td><span t-esc="'%.2f mm' % doc.puente if doc.puente else '-'"/></td>
+                        <td><span t-esc="'%.2f mm' % doc.diametro_sugerido if doc.diametro_sugerido else '-'"/></td>
+                      </tr>
+                    </tbody>
+                    </table>
                 
                 <!-- Observaciones con estilo -->
                 <div class="observaciones-box" t-if="doc.observaciones">
