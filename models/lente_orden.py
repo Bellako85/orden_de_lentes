@@ -36,6 +36,13 @@ class OpticaLenteOrden(models.Model):
     add = fields.Float('Adición')
     dip = fields.Float('DIP'); dnp_od = fields.Float('DNP OD'); dnp_oi = fields.Float('DNP OI')
     alt_co = fields.Float('Alt. CO')
+      
+    # Medidas del armazón
+    diametro_horizontal = fields.Float('Diám. horizontal', digits=(8, 2), tracking=True)
+    diametro_vertical = fields.Float('Diám. vertical', digits=(8, 2), tracking=True)
+    efectivo = fields.Float('Efectivo', digits=(8, 2), tracking=True)
+    puente = fields.Float('Puente', digits=(8, 2), tracking=True)
+    diametro_sugerido = fields.Float('Diám. sugerido', digits=(8, 2), tracking=True)
     observaciones = fields.Text()
 
     fecha_prometida = fields.Date(required=True, tracking=True)
