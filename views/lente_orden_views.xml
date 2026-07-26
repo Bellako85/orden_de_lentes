@@ -112,7 +112,8 @@
   <field name="name">optica.lente.orden.kanban</field>
   <field name="model">optica.lente.orden</field>
   <field name="arch" type="xml">
-    <kanban default_group_by="state" class="o_kanban_small_column" group_create="false" group_delete="false" records_draggable="true">
+    <!-- Le agregamos group_create y group_delete en false para fijar tus columnas técnicas -->
+    <kanban default_group_by="state" class="o_kanban_small_column" group_create="false" group_delete="false" records_draggable="true">   
       <field name="name"/>
       <field name="paciente_id"/>
       <field name="fecha_prometida"/>
@@ -125,13 +126,14 @@
             <strong t-esc="record.name.value"/>
             <div t-if="record.paciente_id" t-esc="record.paciente_id.value"/>
             <div>Entrega: <span t-if="record.fecha_prometida" t-esc="record.fecha_prometida.value"/></div>
+            <!-- Opcional: Si el saldo es mayor a 0, le puedes meter un text-danger para que te brinque visualmente en el mostrador -->
             <div>Saldo: <span t-if="record.saldo_pendiente" t-esc="record.saldo_pendiente.value"/></div>
           </div>
         </t>
       </templates>
     </kanban>
   </field>
-</record> 
+</record>
 
 
 
