@@ -112,8 +112,6 @@
   <field name="name">optica.lente.orden.kanban</field>
   <field name="model">optica.lente.orden</field>
   <field name="arch" type="xml">
-    <kanban default_group_by="state" class="o_kanban_small_column">
-      <!-- DECLARAR los campos que usas en el template -->
     <kanban default_group_by="state" class="o_kanban_small_column" group_create="false" group_delete="false" records_draggable="true">
       <field name="name"/>
       <field name="paciente_id"/>
