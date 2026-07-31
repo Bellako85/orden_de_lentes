@@ -125,7 +125,7 @@
           <div class="oe_kanban_global_click">
             <strong t-esc="record.name.value"/>
             <div t-if="record.paciente_id" t-esc="record.paciente_id.value"/>
-            <div t-if="record.lab_partner_id" class="badge bg-info mt-1"> <t t-esc="record.lab_partner_id.value"/></div>
+            <div t-if="record.lab_partner_id" class="lab-badge"> <t t-esc="record.lab_partner_id.value"/></div>
             <div>Entrega: <span t-if="record.fecha_prometida" t-esc="record.fecha_prometida.value"/></div>
             <div>Saldo: <span t-if="record.saldo_pendiente" t-esc="record.saldo_pendiente.value"/></div>
           </div>
