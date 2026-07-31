@@ -20,7 +20,7 @@ class OpticaLenteOrden(models.Model):
     paciente_id = fields.Many2one('res.partner', string='Paciente', required=True, domain=[('is_company','=',False)], tracking=True)
     sale_order_id = fields.Many2one('sale.order', string='Orden de venta', tracking=True)
     partner_id = fields.Many2one('res.partner', string='Cliente', related='sale_order_id.partner_id', store=True)
-    lab_partner_id = fields.Many2one('res.partner', string='Laboratorio', domain=[('supplier_rank','>',0)], tracking=True)
+    lab_partner_id = fields.Many2one('res.partner', string='Laboratorio', domain=[('category_id.name', '=', 'Laboratorio')], tracking=True)
     purchase_id = fields.Many2one('purchase.order', string='OC laboratorio', tracking=True)
 
     frame_id = fields.Many2one('product.product', string='Armazón')
