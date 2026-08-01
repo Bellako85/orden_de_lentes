@@ -1,24 +1,179 @@
-.oe_kanban_global_click {
-    padding: 12px;
-    background: #fff;
-    border-radius: 8px;
-    border-left: 4px solid #875A7B; /* Color Odoo */
-    box-shadow: 0 2px 6px rgba(0,0,0,.08);
-    transition: all .2s ease;
+/* ===========================
+   KANBAN NEUMORPHISM
+=========================== */
+
+.kanban-neumorphism {
+    background: #eef2f7;
+    border-radius: 18px;
+    padding: 14px;
+    margin: 8px;
+    transition: all .25s ease;
+    box-shadow:
+        8px 8px 18px rgba(163,177,198,.45),
+        -8px -8px 18px rgba(255,255,255,.9);
 }
 
-.oe_kanban_global_click:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+.kanban-neumorphism:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        12px 12px 24px rgba(163,177,198,.55),
+        -12px -12px 24px rgba(255,255,255,1);
 }
 
-.lab-badge{
-    display:inline-block;
-    margin:6px 0;
-    padding:2px 8px;
+/* ===========================
+   HEADER
+=========================== */
+
+.kanban-header-neuro{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.neuro-number{
+    font-size:18px;
+    font-weight:700;
+    color:#2c3e50;
+}
+
+.neuro-badge{
+    padding:5px 12px;
+    border-radius:999px;
     font-size:11px;
-    font-weight:600;
-    color:#fff;
-    background:#3B82F6;
+    font-weight:700;
+    color:white;
+}
+
+/* Estados */
+
+.state-draft .neuro-badge{
+    background:#6c757d;
+}
+
+.state-waiting .neuro-badge,
+.state-pending .neuro-badge{
+    background:#f39c12;
+}
+
+.state-processing .neuro-badge,
+.state-progress .neuro-badge{
+    background:#3498db;
+}
+
+.state-delivered .neuro-badge,
+.state-done .neuro-badge{
+    background:#27ae60;
+}
+
+.state-cancelled .neuro-badge{
+    background:#e74c3c;
+}
+
+/* ===========================
+   BODY
+=========================== */
+
+.kanban-body-neuro{
+    margin:10px 0;
+}
+
+.neuro-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:8px;
+    padding:10px;
+
     border-radius:12px;
+
+    background:#eef2f7;
+
+    box-shadow:
+        inset 3px 3px 8px rgba(163,177,198,.30),
+        inset -3px -3px 8px rgba(255,255,255,.8);
+}
+
+.neuro-icon{
+    width:24px;
+    text-align:center;
+    font-size:16px;
+}
+
+.neuro-text{
+    flex:1;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    color:#34495e;
+    font-weight:500;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+.kanban-footer-neuro{
+    margin-top:14px;
+}
+
+.neuro-data{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.neuro-saldo,
+.neuro-fecha{
+
+    flex:1;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+
+    padding:8px;
+
+    border-radius:12px;
+
+    background:#eef2f7;
+
+    box-shadow:
+        inset 3px 3px 8px rgba(163,177,198,.30),
+        inset -3px -3px 8px rgba(255,255,255,.8);
+
+    font-size:13px;
+    font-weight:600;
+}
+
+.neuro-saldo.pendiente{
+    color:#c0392b;
+}
+
+.neuro-saldo.pagado{
+    color:#27ae60;
+}
+
+.neuro-calendar,
+.neuro-coin{
+    font-size:15px;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width:768px){
+
+    .kanban-neumorphism{
+        margin:4px;
+        padding:10px;
+    }
+
+    .neuro-data{
+        flex-direction:column;
+    }
+
 }
