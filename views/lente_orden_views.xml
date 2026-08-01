@@ -107,35 +107,75 @@
     </field>
   </record>
 
-<!-- Vista Kanban CORREGIDA - CON ESTRUCTURA -->
-<record id="view_optica_lente_orden_kanban" model="ir.ui.view">
-  <field name="name">optica.lente.orden.kanban</field>
-  <field name="model">optica.lente.orden</field>
-  <field name="arch" type="xml">
-    <kanban default_group_by="state" class="o_kanban_small_column" group_create="false" group_delete="false" records_draggable="true">   
-      <field name="name"/>
-      <field name="lab_partner_id"/>
-      <field name="paciente_id"/>
-      <field name="fecha_prometida"/>
-      <field name="saldo_pendiente"/>
-      <field name="state"/>
-
-      <templates>
-        <t t-name="kanban-box">
-          <div class="oe_kanban_global_click">
-            <strong t-esc="record.name.value"/>
-            <div t-if="record.paciente_id" t-esc="record.paciente_id.value"/>
-            <div t-if="record.lab_partner_id" class="lab-badge"> <t t-esc="record.lab_partner_id.value"/></div>
-            <div>Entrega: <span t-if="record.fecha_prometida" t-esc="record.fecha_prometida.value"/></div>
-            <div>Saldo: <span t-if="record.saldo_pendiente" t-esc="record.saldo_pendiente.value"/></div>
-          </div>
-        </t>
-      </templates>
-    </kanban>
-  </field>
+  <!-- Kanban FLOW VIOLENTO -->
+<record id="view_lente_orden_kanban_neumorphism" model="ir.ui.view">
+    <field name="name">optica.lente.orden.kanban.neumorphism</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="arch" type="xml">
+        <kanban string="Órdenes de Lentes">
+            <field name="name"/>
+            <field name="paciente_id"/>
+            <field name="lab_partner_id"/>
+            <field name="lens_product_ids"/>
+            <field name="saldo_pendiente"/>
+            <field name="fecha_prometida"/>
+            <field name="state"/>
+            
+            <templates>
+                <t t-name="kanban-box">
+                    <!-- TARJETA NEUMORPHISM CYBER -->
+                    <div class="oe_kanban_global_click kanban-neumorphism" t-att-data-state="record.state.raw_value">
+                        
+                        <!-- HEADER: Estado con neumorphism -->
+                        <div class="kanban-header-neuro" t-att-class="'state-' + record.state.raw_value">
+                            <div class="neuro-badge">
+                                <span class="state-text" t-esc="record.state.value"/>
+                            </div>
+                            <div class="neuro-number">
+                                <strong t-esc="record.name.value"/>
+                            </div>
+                        </div>
+                        
+                        <!-- CUERPO: Info con efecto hundido -->
+                        <div class="kanban-body-neuro">
+                            <!-- Paciente -->
+                            <div class="neuro-line paciente-line">
+                                <div class="neuro-icon">👤</div>
+                                <div class="neuro-text" t-esc="record.paciente_id.value or 'Sin paciente'"/>
+                            </div>
+                            
+                            <!-- Laboratorio -->
+                            <div class="neuro-line lab-line">
+                                <div class="neuro-icon">🏭</div>
+                                <div class="neuro-text" t-esc="record.lab_partner_id.value or 'Sin lab'"/>
+                            </div>
+                            
+                            <!-- Lentes/Tratamientos -->
+                            <div class="neuro-line lentes-line">
+                                <div class="neuro-icon">👓</div>
+                                <div class="neuro-text" t-esc="record.lens_product_ids.value or 'Sin lentes'"/>
+                            </div>
+                        </div>
+                        
+                        <!-- FOOTER: Saldo + Fecha con relief -->
+                        <div class="kanban-footer-neuro">
+                            <div class="neuro-data">
+                                <div class="neuro-saldo" t-att-class="record.saldo_pendiente.raw_value > 0 ? 'pendiente' : 'pagado'">
+                                    <div class="neuro-coin">💰</div>
+                                    <span t-esc="record.saldo_pendiente.value or '0.00'"/>
+                                </div>
+                                <div class="neuro-fecha">
+                                    <div class="neuro-calendar">📅</div>
+                                    <span t-esc="record.fecha_prometida.value or 'Sin fecha'"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
 </record>
-
-
 
     <!-- Calendar -->   
   <record id="view_optica_lente_orden_calendar" model="ir.ui.view">
