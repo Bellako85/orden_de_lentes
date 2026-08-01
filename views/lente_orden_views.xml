@@ -112,13 +112,15 @@
     <field name="name">optica.lente.orden.kanban.neumorphism</field>
     <field name="model">optica.lente.orden</field>
     <field name="arch" type="xml">
+
         <kanban string="Órdenes de Lentes"
-        default_group_by="state"
-        class="o_kanban_small_column"
-        group_create="false"
-        group_delete="false"
-        records_draggable="true"
-        quick_create="false">
+                default_group_by="state"
+                class="o_kanban_small_column"
+                group_create="false"
+                group_delete="false"
+                records_draggable="true"
+                quick_create="false">
+
             <field name="name"/>
             <field name="paciente_id"/>
             <field name="lab_partner_id"/>
@@ -126,62 +128,123 @@
             <field name="saldo_pendiente"/>
             <field name="fecha_prometida"/>
             <field name="state"/>
-            
+
             <templates>
+
                 <t t-name="kanban-box">
-                    <!-- TARJETA NEUMORPHISM CYBER -->
-                    <div class="oe_kanban_global_click kanban-neumorphism" t-att-data-state="record.state.raw_value">
-                        
-                        <!-- HEADER: Estado con neumorphism -->
-                        <div class="kanban-header-neuro" t-att-class="'state-' + record.state.raw_value">
+
+                    <div class="oe_kanban_global_click kanban-neumorphism">
+
+                        <!-- HEADER -->
+                        <div class="kanban-header-neuro">
+
                             <div class="neuro-badge">
-                                <span class="state-text" t-esc="record.state.value"/>
+                                <span t-esc="record.state.value"/>
                             </div>
+
                             <div class="neuro-number">
                                 <strong t-esc="record.name.value"/>
                             </div>
+
                         </div>
-                        
-                        <!-- CUERPO: Info con efecto hundido -->
+
+                        <!-- BODY -->
                         <div class="kanban-body-neuro">
+
                             <!-- Paciente -->
-                            <div class="neuro-line paciente-line">
-                                <div class="neuro-icon">👤</div>
-                                <div class="neuro-text" t-esc="record.paciente_id.value or 'Sin paciente'"/>
+                            <div class="neuro-line">
+                                <i class="fa fa-user neuro-icon"/>
+                                <div class="neuro-text">
+                                    <t t-esc="record.paciente_id.value or 'Sin paciente'"/>
+                                </div>
                             </div>
-                            
+
                             <!-- Laboratorio -->
-                            <div class="neuro-line lab-line">
-                                <div class="neuro-icon">🏭</div>
-                                <div class="lab-badge"
-     t-attf-class="lab-badge lab-#{(record.lab_partner_id.value or '').lower().replace(' ','-')}">
-    <t t-esc="record.lab_partner_id.value"/>
-</div>
-                            
-                            <!-- Lentes/Tratamientos -->
-                            <div class="neuro-line lentes-line">
-                                <div class="neuro-icon">👓</div>
-                                <div class="neuro-text" t-esc="record.lens_product_ids.value or 'Sin lentes'"/>
+                            <div class="neuro-line">
+                                <i class="fa fa-industry neuro-icon"/>
+
+                                <t t-if="record.lab_partner_id.value == 'Starlab'">
+                                    <span class="lab-badge lab-starlab">Starlab</span>
+                                </t>
+
+                                <t t-elif="record.lab_partner_id.value == 'Essilor Mexico'">
+                                    <span class="lab-badge lab-essilor">Essilor</span>
+                                </t>
+
+                                <t t-elif="record.lab_partner_id.value == 'VISIONlab'">
+                                    <span class="lab-badge lab-vision">VISIONlab</span>
+                                </t>
+
+                                <t t-else="">
+                                    <span class="lab-badge">
+                                        <t t-esc="record.lab_partner_id.value or 'Sin laboratorio'"/>
+                                    </span>
+                                </t>
+
                             </div>
+
+                            <!-- Productos -->
+                            <div class="neuro-line">
+                                <i class="fa fa-eye neuro-icon"/>
+
+                                <div class="neuro-text">
+                                    <t t-esc="record.lens_product_ids.value or 'Sin productos'"/>
+                                </div>
+
+                            </div>
+
                         </div>
-                        
-                        <!-- FOOTER: Saldo + Fecha con relief -->
+
+                        <!-- FOOTER -->
+
                         <div class="kanban-footer-neuro">
+
                             <div class="neuro-data">
-                                <div class="neuro-saldo" t-att-class="record.saldo_pendiente.raw_value > 0 ? 'pendiente' : 'pagado'">
-                                    <div class="neuro-coin">💰</div>
-                                    <span t-esc="record.saldo_pendiente.value or '0.00'"/>
-                                </div>
+
+                                <t t-if="record.saldo_pendiente.raw_value > 0">
+
+                                    <div class="neuro-saldo pendiente">
+
+                                        <i class="fa fa-money"/>
+
+                                        <span t-esc="record.saldo_pendiente.value"/>
+
+                                    </div>
+
+                                </t>
+
+                                <t t-else="">
+
+                                    <div class="neuro-saldo pagado">
+
+                                        <i class="fa fa-check-circle"/>
+
+                                        <span>$0.00</span>
+
+                                    </div>
+
+                                </t>
+
                                 <div class="neuro-fecha">
-                                    <div class="neuro-calendar">📅</div>
+
+                                    <i class="fa fa-calendar"/>
+
                                     <span t-esc="record.fecha_prometida.value or 'Sin fecha'"/>
+
                                 </div>
+
                             </div>
+
                         </div>
+
                     </div>
-                </div>
+
+                </t>
+
             </templates>
+
         </kanban>
+
     </field>
 </record>
 
