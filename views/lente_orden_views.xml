@@ -176,7 +176,7 @@
                                 </t>
 
                                 <t t-elif="record.lab_partner_id.value == 'DORevolucion'">
-                                    <span class="lab-badge lab-vision">VISIONlab</span>
+                                    <span class="lab-badge lab-vision">DORevolucion</span>
                                 </t>
                               
                                 <t t-else="">
