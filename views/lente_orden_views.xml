@@ -175,6 +175,10 @@
                                     <span class="lab-badge lab-vision">VISIONlab</span>
                                 </t>
 
+                                <t t-elif="record.lab_partner_id.value == 'DORevolucion'">
+                                    <span class="lab-badge lab-vision">VISIONlab</span>
+                                </t>
+                              
                                 <t t-else="">
                                     <span class="lab-badge">
                                         <t t-esc="record.lab_partner_id.value or 'Sin laboratorio'"/>
