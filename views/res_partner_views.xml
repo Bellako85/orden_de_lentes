@@ -1,22 +1,24 @@
-<record id="view_res_partner_form_inherit_orden_lentes" model="ir.ui.view">
-    <field name="name">res.partner.form.orden.lentes</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.view_partner_form"/>
+<odoo>
+ <record id="view_res_partner_form_inherit_orden_lentes" model="ir.ui.view">
+     <field name="name">res.partner.form.orden.lentes</field>
+     <field name="model">res.partner</field>
+     <field name="inherit_id" ref="base.view_partner_form"/>
 
-    <field name="arch" type="xml">
-        <xpath expr="//notebook" position="inside">
-            <page string="Pedidos">
-                <field name="orden_lente_ids" readonly="1">
-                    <tree string="Órdenes procesadas">
-                        <field name="name"/>
-                        <field name="paciente_id"/>
-                        <field name="sale_order_id"/>
-                        <field name="fecha_prometida"/>
-                        <field name="fecha_entrega_real"/>
-                        <field name="state"/>
-                    </tree>
-                </field>
-            </page>
-        </xpath>
-    </field>
-</record>
+     <field name="arch" type="xml">
+         <xpath expr="//notebook" position="inside">
+             <page string="Pedidos">
+                 <field name="orden_lente_ids" readonly="1">
+                     <tree string="Órdenes procesadas">
+                         <field name="name"/>
+                         <field name="paciente_id"/>
+                         <field name="sale_order_id"/>
+                         <field name="fecha_prometida"/>
+                         <field name="fecha_entrega_real"/>
+                         <field name="state"/>
+                     </tree>
+                 </field>
+             </page>
+         </xpath>
+     </field>
+ </record>
+</odoo>
