@@ -12,7 +12,7 @@
         "views/lente_orden_views.xml", 
         "report/lente_orden_report.xml",
         "report/lente_orden_report_templates.xml",
-        "views/res_partner_views.xml
+        "views/res_partner_views.xml,
     ],
     "assets": {
         "web.assets_backend": [
