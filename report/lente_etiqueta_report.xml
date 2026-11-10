@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="paperformat_lente_etiqueta_50_30" model="report.paperformat">
+    <field name="name">Niimbot B1 — 50 × 30 mm</field>
+    <field name="default" eval="False"/>
+    <field name="format">custom</field>
+    <field name="page_width">50</field>
+    <field name="page_height">30</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">1</field>
+    <field name="margin_bottom">1</field>
+    <field name="margin_left">1</field>
+    <field name="margin_right">1</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">0</field>
+    <field name="dpi">96</field>
+    <field name="disable_shrinking" eval="True"/>
+  </record>
+
+  <record id="action_report_lente_etiqueta" model="ir.actions.report">
+    <field name="name">Etiqueta Niimbot B1 (50 × 30 mm)</field>
+    <field name="model">optica.lente.orden</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">Orden_de_lentes.report_lente_etiqueta</field>
+    <field name="report_file">Orden_de_lentes.report_lente_etiqueta</field>
+    <field name="paperformat_id" ref="paperformat_lente_etiqueta_50_30"/>
+    <field name="binding_model_id" ref="model_optica_lente_orden"/>
+    <field name="binding_type">report</field>
+    <field name="print_report_name">'Etiqueta_' + (object.name or 'Orden').replace('/', '-')</field>
+  </record>
+
+  <template id="report_lente_etiqueta">
+    <t t-call="web.html_container">
+      <t t-call="web.basic_layout">
+        <style>
+          body, .article { margin: 0 !important; padding: 0 !important; }
+          .niimbot-label { width: 48mm; margin: 0; padding: 0; color: #000;
+            font-family: Arial, sans-serif; font-size: 7pt; line-height: 1.12;
+            page-break-inside: avoid; overflow-wrap: break-word; word-wrap: break-word; }
+          .niimbot-label .folio { font-weight: bold; font-size: 8pt; }
+          .niimbot-label .patient { font-weight: bold; margin-bottom: 0.5mm; }
+          .niimbot-label table { width: 100%; table-layout: fixed; border-collapse: collapse;
+            margin: 0 0 0.5mm; font-size: 7pt; line-height: 1.12; }
+          .niimbot-label th, .niimbot-label td { padding: 0.2mm 0; text-align: center; color: #000; }
+          .niimbot-label th { border-bottom: 0.2mm solid #000; }
+          .niimbot-label .details { font-size: 6.5pt; }
+        </style>
+        <t t-foreach="docs" t-as="doc">
+          <div class="page niimbot-label">
+            <div class="folio">Folio: <span t-field="doc.name"/></div>
+            <div class="patient"><span t-field="doc.paciente_id.name"/></div>
+            <table>
+              <thead><tr><th>OJO</th><th>ESF</th><th>CIL</th><th>EJE</th><th>ADD</th></tr></thead>
+              <tbody>
+                <tr><td><b>OD</b></td><td t-esc="doc.format_label_power(doc.od_esf)"/><td t-esc="doc.format_label_power(doc.od_cil)"/><td t-esc="doc.od_eje"/><td t-esc="doc.format_label_power(doc.add)"/></tr>
+                <tr><td><b>OI</b></td><td t-esc="doc.format_label_power(doc.oi_esf)"/><td t-esc="doc.format_label_power(doc.oi_cil)"/><td t-esc="doc.oi_eje"/><td t-esc="doc.format_label_power(doc.add)"/></tr>
+              </tbody>
+            </table>
+            <div class="details"><b>Tipo: </b><span t-esc="doc.tipo_lente or 'Sin especificar'"/></div>
+            <div class="details"><b>Material: </b><span t-esc="doc.material_lente or 'Sin especificar'"/></div>
+            <div class="details"><b>Trat.: </b><span t-esc="doc.tratamiento_lente or 'Sin especificar'"/></div>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>
