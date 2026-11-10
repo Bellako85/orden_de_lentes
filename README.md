@@ -176,3 +176,34 @@ El [manifiesto](__manifest__.py) declara **LGPL-3**. El árbol revisado no inclu
 ¿Te sirvió este módulo? Déjale una estrella al repositorio. Detrás hay muchas noches de desarrollo y pruebas en una óptica real.
 
 **El `git clone` es gratis; la estrellita también.** 😄
+
+## Etiqueta Niimbot B1 · 50 × 30 mm
+
+Desde la orden, completa **Tipo de lente**, **Material** y **Tratamiento** y pulsa
+**Imprimir etiqueta Niimbot**. También está disponible en el menú **Imprimir**.
+Genera un PDF de 50 mm de ancho por 30 mm de alto, con margen de 1 mm,
+sin encabezado comercial ni pie de página. Incluye folio, nombre del paciente,
+ESF/CIL/EJE de OD y OI, ADD y los tres datos del lente. Las potencias cero
+aparecen como `0.00` y las positivas llevan `+`.
+
+Los campos nuevos son independientes de **Lentes/Tratamientos**: no se deducen
+los materiales de los nombres de productos. Las órdenes existentes muestran
+**Sin especificar** hasta que se completen. Usa descripciones breves para que
+el contenido quepa en una sola etiqueta; revisa el PDF si el nombre o los
+tratamientos son largos. No se recortan ni abrevian automáticamente datos ópticos.
+
+Para instalar el cambio, actualiza el módulo **Orden_de_lentes** en Odoo 17
+(versión `17.0.1.1.0`) y reinicia el servicio. En el diálogo de impresión,
+selecciona el papel **50 × 30 mm**, escala **100 % / tamaño real**, sin ajustar
+a A4 y sin márgenes adicionales. Configura la Niimbot B1 en el sistema mediante
+un controlador compatible. Esta función genera el PDF; no implementa una
+conexión Bluetooth directa ni controla la aplicación móvil de Niimbot.
+
+Pruebas de integración en una base de pruebas con sus dependencias instaladas:
+
+```bash
+odoo-bin -d base_pruebas -u Orden_de_lentes --test-enable --stop-after-init --test-tags /Orden_de_lentes
+```
+
+Comprueba además una impresión física: tamaño, orientación, legibilidad y una
+etiqueta por orden. El resultado físico depende del controlador y la calibración.

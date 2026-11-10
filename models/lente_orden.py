@@ -26,6 +26,10 @@ class OpticaLenteOrden(models.Model):
     frame_id = fields.Many2one('product.product', string='Armazón')
     lens_product_ids = fields.Many2many('product.product', string='Lentes/Tratamientos')
 
+    tipo_lente = fields.Char('Tipo de lente', tracking=True, help='Ej.: monofocal, bifocal o progresivo.')
+    material_lente = fields.Char('Material', tracking=True, help='Ej.: CR-39, policarbonato o alto índice.')
+    tratamiento_lente = fields.Char('Tratamiento', tracking=True, help='Ej.: antirreflejante, fotocromático o sin tratamiento.')
+
     # Relación con graduación
     graduacion_id = fields.Many2one('optica.graduacion', string='Graduación de referencia', 
                                    domain="[('paciente_id', '=', paciente_id)]")
@@ -122,6 +126,14 @@ class OpticaLenteOrden(models.Model):
 
     def action_print_ticket(self):
         return self.env.ref('Orden_de_lentes.action_report_lente_orden').report_action(self)
+
+    def action_print_label(self):
+        return self.env.ref('Orden_de_lentes.action_report_lente_etiqueta').report_action(self)
+
+    def format_label_power(self, value):
+        """En la etiqueta, una potencia cero se imprime explícitamente como 0.00."""
+        number = float(value or 0)
+        return f"{number:+.2f}" if number else "0.00"
 
     def action_cargar_graduacion(self):
         """Botón manual para cargar la graduación más reciente"""

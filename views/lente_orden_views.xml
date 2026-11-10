@@ -6,6 +6,7 @@
     <field name="arch" type="xml">
       <form string="Orden de Lentes" class="o_form_readonly">
         <header>
+          <button name="action_print_label" type="object" string="Imprimir etiqueta Niimbot" icon="fa-print"/>
           <button name="action_print_ticket" type="object" string="Imprimir Ticket" class="oe_highlight"/>
           <button name="action_cargar_graduacion" type="object" string="Cargar Graduación" class="btn-info" 
                   invisible="state != 'en_espera' or not paciente_id"/>
@@ -28,6 +29,9 @@
             <group>
               <field name="frame_id"/>
               <field name="lens_product_ids" widget="many2many_tags"/>
+              <field name="tipo_lente" placeholder="Monofocal / bifocal / progresivo"/>
+              <field name="material_lente" placeholder="CR-39 / policarbonato / alto índice"/>
+              <field name="tratamiento_lente" placeholder="Antirreflejante / sin tratamiento"/>
               <field name="monto_total" readonly="1"/>
               <field name="saldo_pendiente" readonly="1"/>
             </group>
